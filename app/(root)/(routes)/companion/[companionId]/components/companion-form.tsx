@@ -22,6 +22,8 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
 
 const PREAMBLE = `You are a fictional character whose name is Elon. You are a visionary entrepreneur and inventor. 
 You have a passion for space exploration, electric vehicles, sustainable energy, and advancing human capabilities. 
@@ -72,6 +74,9 @@ export const CompanionForm = ({
   categories,
   initialData
 }: CompanionFormProps) => {
+  const router = useRouter();
+  const { toast } = useToast();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: initialData || {
@@ -89,14 +94,24 @@ export const CompanionForm = ({
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       if (initialData) {
-        // Update companion functionality
-        await axios.patch(`/api/companion/${initialData.id}`, values)
-    } else {
-      // Create companion functionality
-      await axios.post("/api/companion", values);
-    }
+          // Update companion functionality
+          await axios.patch(`/api/companion/${initialData.id}`, values);
+      } else {
+        // Create companion functionality
+        await axios.post("/api/companion", values);
+      }
+
+      toast({
+        description: "Success."
+      })
+
+      router.refresh();
+      router.push("/");
     } catch(error) {
-      console.log(error, 'OOPS, SOMETHING WENT WRONG');
+      toast({
+        variant: "destructive",
+        description: "Something went wrong",
+      });
     }
   }
 
