@@ -29,6 +29,7 @@ export const ImageUpload = ({
     <div className="space-y-4 w-full flex flex-col
     justify-center items-center">
       <CldUploadButton
+        onUpload={(result: any) => onChange(result.info.secure_url)}
         options={{
           maxFiles: 1
         }}
@@ -52,7 +53,7 @@ export const ImageUpload = ({
             <Image
               fill
               alt="Upload"
-              src="/placeholder.svg"
+              src={value || "/placeholder.svg"}
               className="rounded-lg object-cover"
             />
           </div>
