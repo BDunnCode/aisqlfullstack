@@ -18,7 +18,6 @@ model Category {
   companions    Companion[]
 }
 
-
 model Companion {
   id            String @id @default(uuid())
   userId        String 
