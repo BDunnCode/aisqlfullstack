@@ -5,8 +5,11 @@ import { usePathname, useRouter } from "next/navigation";
 
 import { cn } from "@/lib/utils";
 
+interface SidebarProps {
+  isPro: boolean;
+}
 
-export const Sidebar = () => {
+export const Sidebar = ( { isPro }: SidebarProps ) => {
   const pathname = usePathname();
   const router = useRouter();
 
